@@ -17,6 +17,8 @@ public class FlightEntity {
 	@NotBlank(message = "this cant be blank")
 	private String airlineName;
 	
+	private Double price;
+	
 	public Integer getId() {
 		return id;
 	}
@@ -43,5 +45,11 @@ public class FlightEntity {
 	}
 	public FlightEntity() {
 		super();
+	}
+	public Double getPrice() {
+		return price;
+	}
+	public void setPrice(Double price) {
+		this.price = price;
 	}
 }

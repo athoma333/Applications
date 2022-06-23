@@ -11,6 +11,7 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -67,13 +68,19 @@ public class FlightController {
 		});
 		return messages;
 	}
-	@GetMapping("/getflightprice")
-	public Double getFlightPrice() {
+	@GetMapping("/setflightprice")
+	public FlightEntity setFlightPrice(@RequestParam("id") Integer id) {
 
 		HttpHeaders headers = new HttpHeaders();
 		HttpEntity<String> entity=new HttpEntity<String>(headers);
 		RestTemplate restTemplate = new RestTemplate();
-		Double price= restTemplate.exchange("http://localhost:8090/getPrice", HttpMethod.GET,entity,Double.class).getBody();
-		return price;
+		ResponseEntity<Double> price= restTemplate.exchange("http://localhost:8090/getPrice", HttpMethod.GET,entity,Double.class);
+		FlightEntity flightEntity = flightService.findbyid(id);
+		if(price.hasBody()) {
+			flightEntity.setPrice(price.getBody());
+			flightService.saveFlight(flightEntity);
+			return flightEntity;
+		}
+		return flightEntity;
 	}
 }

@@ -23,4 +23,7 @@ public class FlightServiceImpl {
 	public void updateFlights(FlightEntity flightEntity) {
 		iFlightRepository.save(flightEntity);
 	}
+	public FlightEntity findbyid(Integer id) {
+		return iFlightRepository.findById(id).get();
+	}
 }
