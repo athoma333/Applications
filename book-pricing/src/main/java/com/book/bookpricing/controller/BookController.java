@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.book.bookpricing.entity.Book;
+import com.book.bookpricing.exceptions.BookNotFoundException;
 import com.book.bookpricing.repository.BookRepository;
 import com.book.bookpricing.service.BookServiceImpl;
 
@@ -45,7 +46,12 @@ public class BookController {
 	}
 	
 	@GetMapping("/getbook/{id}")
-	public Book findBookById(@PathVariable("id") Integer bookNumber) {
+	public Book findBookById(@PathVariable("id") Integer bookNumber) throws BookNotFoundException {
 		return bookservice.findById(bookNumber);
 	}
+	
+//	@ExceptionHandler(BookNotFoundException.class)
+//	public ResponseEntity<String> handleEx(BookNotFoundException e){
+//		return new ResponseEntity<String>(e.getMessage(), HttpStatus.OK);
+//	}
 }
